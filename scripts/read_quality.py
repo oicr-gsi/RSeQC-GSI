@@ -55,7 +55,7 @@ def main():
 	parser = OptionParser(usage,version="%prog " + __version__)
 	parser.add_option("-i","--input-file",action="store",type="string",dest="input_file",help="Alignment file in BAM or SAM format. [required]")
 	parser.add_option("-o","--out-prefix",action="store",type="string",dest="output_prefix",help="Prefix of output files(s). [required]")
-	parser.add_option("-r","--reduce",action="store",type="int",dest="reduce_fold",default=1,help="To avoid making huge vector in R, nucleotide with particular phred score less frequent than this number will be ignored. Increase this number save more memory while reduce precision. Set to 1 achieves maximum precision (i.e. every nucleotide will be considered). This option only applies to the 'boxplot'. default=%default")
+	parser.add_option("-r","--reduce",action="store",type="int",dest="reduce_fold",default=1000,help="To avoid making huge vector in R, nucleotide with particular phred score less frequent than this number will be ignored. Increase this number save more memory while reduce precision. Set to 1 achieves maximum precision (i.e. every nucleotide will be considered). This option only applies to the 'boxplot'. default=%default")
 	parser.add_option("-q","--mapq",action="store",type="int",dest="map_qual",default=30,help="Minimum mapping quality (phred scaled) for an alignment to be called \"uniquely mapped\". default=%default")
 	(options,args)=parser.parse_args()
 
