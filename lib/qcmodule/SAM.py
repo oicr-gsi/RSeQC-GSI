@@ -2937,58 +2937,62 @@ class ParseBAM(object):
         
         transtab = str.maketrans("ACGTNX","TGCANX")
         base_freq=collections.defaultdict(int)
-        a_count=[]
-        c_count=[]
-        g_count=[]
-        t_count=[]
-        n_count=[]
-        x_count=[]
         if self.bam_format:print("Read BAM file ... ", end=' ', file=sys.stderr)
         else:print("Read SAM file ... ", end=' ', file=sys.stderr)
 
+        read1_length = 0
         try:
             while(1):
                 aligned_read = next(self.samfile)
                 if aligned_read.mapq < q_cut: continue
                 #if aligned_read.is_unmapped:continue   #skip unmapped read
                 #if aligned_read.is_qcfail:continue #skip low quality
-
-                RNA_read = aligned_read.seq.upper()     
+                RNA_read = aligned_read.query_sequence.upper()
                 if aligned_read.is_reverse:
                     RNA_read = RNA_read.translate(transtab)[::-1]
+                read = 1 # default to read 1
+                if aligned_read.is_read1 and read1_length < len(RNA_read):
+                    read1_length = len(RNA_read)
+                elif aligned_read.is_read2:
+                    read = 2
                 for i,j in enumerate(RNA_read):
-                    key = str(i) + j
-                    base_freq[key] += 1
+                    base_freq[(read, i, j)] += 1
         except StopIteration:
             print("Done", file=sys.stderr)
-        
-        print("generating data matrix ...", file=sys.stderr)
+
+        freq_by_cycle = collections.defaultdict(int)
+        max_cycle = 0
+        for key in base_freq.keys():
+            (read, i, j) = key
+            # cycle count starts from 1, not 0
+            if read == 2: cycle = read1_length + i + 1
+            else: cycle = i + 1
+            if cycle > max_cycle:
+                max_cycle = cycle
+            freq_by_cycle[(cycle, j)] = base_freq[key]
+
+        print("generating data matrix for %i cycles ..." % max_cycle, file=sys.stderr)
         print("Position\tA\tC\tG\tT\tN\tX", file=FO)
-        for i in range(len(RNA_read)):
-            print(str(i) + '\t', end=' ', file=FO)
-            print(str(base_freq[str(i) + "A"]) + '\t', end=' ', file=FO)
-            a_count.append(str(base_freq[str(i) + "A"]))
-            print(str(base_freq[str(i) + "C"]) + '\t', end=' ', file=FO)
-            c_count.append(str(base_freq[str(i) + "C"]))
-            print(str(base_freq[str(i) + "G"]) + '\t', end=' ', file=FO)
-            g_count.append(str(base_freq[str(i) + "G"]))
-            print(str(base_freq[str(i) + "T"]) + '\t', end=' ', file=FO)
-            t_count.append(str(base_freq[str(i) + "T"]))
-            print(str(base_freq[str(i) + "N"]) + '\t', end=' ', file=FO)
-            n_count.append(str(base_freq[str(i) + "N"]))
-            print(str(base_freq[str(i) + "X"]) + '\t', file=FO)
-            x_count.append(str(base_freq[str(i) + "X"]))
+
+        bases = ("A", "C", "G", "T", "N", "X")
+        base_counts = {}
+        for j in bases:
+            base_counts[j] = []
+        for i in range(1, max_cycle+1):
+            fields = [str(i), ]
+            for j in bases:
+                try: freq = freq_by_cycle[(i, j)]
+                except KeyError: freq = 0 # eg. no X calls in given cycle
+                fields.append(str(freq))
+                base_counts[j].append(freq)
+            print('\t'.join(fields), file=FO)
         FO.close()
         
         #generating R scripts
         print("generating R script  ...", file=sys.stderr)
-        print("position=c(" + ','.join([str(i) for i in range(len(RNA_read))]) + ')', file=RS)
-        print("A_count=c(" + ','.join(a_count) + ')', file=RS)
-        print("C_count=c(" + ','.join(c_count) + ')', file=RS)
-        print("G_count=c(" + ','.join(g_count) + ')', file=RS)
-        print("T_count=c(" + ','.join(t_count) + ')', file=RS)
-        print("N_count=c(" + ','.join(n_count) + ')', file=RS)
-        print("X_count=c(" + ','.join(x_count) + ')', file=RS)
+        print("position=c(" + ','.join([str(i) for i in range(1, max_cycle+1)]) + ')', file=RS)
+        for j in bases:
+            print("%s_count=c(%s)" % (j, ','.join(str(n) for n in base_counts[j])), file=RS)
         
         if nx:
             print("total= A_count + C_count + G_count + T_count + N_count + X_count", file=RS)
