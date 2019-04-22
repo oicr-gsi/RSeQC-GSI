@@ -11,7 +11,7 @@ RSeQC-GSI: An RNA-seq Quality Control Package
 
 This is a fork of the original RSeQC package located at: http://rseqc.sourceforge.net/
 
-It implements customizations and bugfixes in use at OICR-GSI: https://labs.oicr.on.ca/genome-sequence-informatics
+It implements customizations and bugfixes in use at `OICR-GSI <https://labs.oicr.on.ca/genome-sequence-informatics>`_.
 
 RSeQC package provides a number of useful modules that can comprehensively evaluate high
 throughput sequence data especially RNA-seq data. Some basic modules quickly inspect sequence
@@ -21,10 +21,10 @@ evaluate sequencing saturation, mapped reads distribution, coverage uniformity, 
 Release history
 ===================
 
-**RSeQC-GSI Unreleased**
+**RSeQC-GSI v3.0.1**
 
 * Fork repository to GSI Github
-* Fix bug in calculation of NVC
+* Fix bug in calculation of NVC; count nucleotides separately for read1 and read2
 * Change default reduce_fold parameter in read_quality.py from 1 to 1000
 
 **RSeQC v3.0.0**
