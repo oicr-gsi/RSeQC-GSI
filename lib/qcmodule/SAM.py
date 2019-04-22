@@ -2974,15 +2974,14 @@ class ParseBAM(object):
         print("generating data matrix for %i cycles ..." % max_cycle, file=sys.stderr)
         print("Position\tA\tC\tG\tT\tN\tX", file=FO)
 
-        bases = ("A", "C", "G", "T", "N", "X")
+        bases = ["A", "C", "G", "T", "N", "X"]
         base_counts = {}
         for j in bases:
             base_counts[j] = []
         for i in range(1, max_cycle+1):
             fields = [str(i), ]
             for j in bases:
-                try: freq = freq_by_cycle[(i, j)]
-                except KeyError: freq = 0 # eg. no X calls in given cycle
+                freq = freq_by_cycle.get((i,j), 0) # default to 0 frequency
                 fields.append(str(freq))
                 base_counts[j].append(freq)
             print('\t'.join(fields), file=FO)
