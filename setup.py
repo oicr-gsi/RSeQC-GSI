@@ -25,12 +25,12 @@ def main():
                 author = "Liguo Wang",
 		author_email = "wangliguo78@gmail.com",
                 maintainer = "Iain Bancarz",
-                maintainer_email = "ibancarz@oicr.on.ca"
+                maintainer_email = "ibancarz@oicr.on.ca",
 		platforms = ['Linux','MacOS'],
 		requires = ['cython (>=0.17)'],
 		install_requires = ['cython>=0.17','pysam','bx-python','numpy', 'pyBigWig'],
                 description = "RNA-seq QC Package",
-                long_description = "Fork for use at OICR-GSI, of the RSeQC package at http://rseqc.sourceforge.net/ written by Liguo Wang and others. Fork and subsequent modifications by Iain Bancarz."
+                long_description = "Fork for use at OICR-GSI, of the RSeQC package at http://rseqc.sourceforge.net/ written by Liguo Wang and others. Fork and subsequent modifications by Iain Bancarz.",
                 url = "https://github.com/oicr-gsi/RSeQC-GSI",
                 zip_safe = False,
                 dependency_links = [],
