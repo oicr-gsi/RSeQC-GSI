@@ -21,6 +21,9 @@ evaluate sequencing saturation, mapped reads distribution, coverage uniformity, 
 Release history
 ===================
 
+**RSeQC-GSI v3.0.2**
+* Updated setup.py
+
 **RSeQC-GSI v3.0.1**
 
 * Fork repository to GSI Github
