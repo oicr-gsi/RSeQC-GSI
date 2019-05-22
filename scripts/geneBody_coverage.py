@@ -100,7 +100,7 @@ def genebody_percentile(refbed, mRNA_len_cut = 100):
 			chrom     = fields[0]
 			tx_start  = int( fields[1] )
 			tx_end    = int( fields[2] )
-			geneName      = fields[3]
+			geneName  = fields[3]
 			strand    = fields[5]
 			geneID = '_'.join([str(j) for j in (chrom, tx_start, tx_end, geneName, strand)])
 				
@@ -193,8 +193,8 @@ def Rcode_write(dataset,file_prefix, format='pdf', colNum=100):
 		print('rc <- cm.colors(ncol(data_matrix))', file=ROUT)
 		print('heatmap(data_matrix' + ', scale=c(\"none\"),keep.dendro=F, labRow = rowLabel ' + ',Colv = NA,Rowv = NA,labCol=NA,col=cm.colors(256),margins = c(6, 8),ColSideColors = rc,cexRow=1,cexCol=1,xlab="Gene body percentile (5\'->3\')", add.expr=x_axis_expr <- axis(side=1,at=c(%s),labels=c(%s)))' % (','.join([str(i) for i in tick_pos]), ','.join(['"' + str(i) + '"' for i in tick_lab])), file=ROUT)
 		print('dev.off()', file=ROUT)
-    
-    
+
+
 	print('\n', file=ROUT)
 	
 	print('%s(\"%s.%s\")' % (format.lower(),file_prefix + ".curves",format.lower()), file=ROUT)	
@@ -280,7 +280,8 @@ def main():
 		name = f[0]
 		dat = [float(i) for i in  f[1:]]
 		skewness = pearson_moment_coefficient(dat)
-		dataset.append((name, [(i -min(dat))/(max(dat) - min(dat)) for i in dat], skewness))	
+		interval = max(max(dat) - min(dat), 0.000000000001) # prevent division-by-zero error
+		dataset.append((name, [(i -min(dat))/interval for i in dat], skewness))
 	dataset.sort(key = operator.itemgetter(2), reverse=True)
 	
 	print("\n\n", file=sys.stderr)
@@ -299,4 +300,4 @@ def main():
 	
 if __name__ == '__main__':
 	main()
-	
+

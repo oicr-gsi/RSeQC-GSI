@@ -21,6 +21,9 @@ evaluate sequencing saturation, mapped reads distribution, coverage uniformity, 
 Release history
 ===================
 
+**RSeQC-GSI v3.0.3**
+* Bugfix for divide-by-zero error in geneBody_coverage.py
+
 **RSeQC-GSI v3.0.2**
 * Updated setup.py
 
@@ -187,7 +190,7 @@ we provide them here to facilitate users with NO WARRANTY in completeness.
 Installation
 ===================================
 
-Instal pip
+Install pip
 -------------------------------------------
 pip is already installed if you are using Python 2 >=2.7.9 or Python 3 >=3.4 downloaded
 from `python.org <python.org>`_ or if you are working in a Virtual Environment created by
@@ -196,8 +199,24 @@ or `pyvenv <https://packaging.python.org/key_projects/#venv>`_. Just make sure t
 pip. You must first install pip following the instructions: `https://pypi.python.org/pypi/pip <https://pypi.python.org/pypi/pip>`_
 
 
-Use pip3 to install RSeQC (v3.0.0 or newer)
---------------------------------------------
+Use pip3 to install RSeQC-GSI (v3.0.1 or newer)
+-----------------------------------------------
+
+RSeQC-GSI is not available from the Python package index at pypi.org.
+
+Instead, use ``setup.py sdist`` to create a source distribution, and pip3 to install with dependencies as follows:
+
+::
+
+   mkdir $TMPDIR
+   python3 setup.py sdist -d $TMPDIR
+   cd $TMPDIR
+   pip3 install RSeQC-GSI-${VERSION}.tar.gz
+
+To avoid the need to modify the system Python, the above may be done in a `virtual environment <https://docs.python.org/3/tutorial/venv.html>`_.
+
+Use pip3 to install RSeQC (v3.0.0)
+----------------------------------
 
 ::
 
