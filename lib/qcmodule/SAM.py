@@ -3036,7 +3036,7 @@ class ParseBAM(object):
         q_max = -1
         q_min = 10000
         q_list=[]
-        i_box={}    #key is read postion,value is 
+        i_box={}    #key is read postion,value is
         try:
             while(1):
                 aligned_read = next(self.samfile)
@@ -3067,11 +3067,14 @@ class ParseBAM(object):
             for q in range(q_min,q_max+1):
                 if p in quality and q in quality[p]:
                     val.append(str(q))              
-                    occurrence.append(str(quality[p][q]))   
+                    occurrence.append(quality[p][q])
                     q_list.append(str(quality[p][q]))
                 else:
                     q_list.append(str(0))
-            i_box[p] = 'rep(c(' + ','.join(val) + '),times=c(' + ','.join(occurrence) + ')/' + str(shrink)+ ')'
+            # sanity check -- do not shrink by so much that quality score counts become zero
+            # in particular, do not create empty input, which will break the boxplot function
+            shrink = min(shrink, min(occurrence))
+            i_box[p] = 'rep(c(' + ','.join(val) + '),times=c(' + ','.join(str(x) for x in occurrence) + ')/' + str(shrink)+ ')'
         
         
         #generate R script for boxplot
