@@ -3036,7 +3036,7 @@ class ParseBAM(object):
         q_max = -1
         q_min = 10000
         q_list=[]
-        i_box={}    #key is read postion,value is
+        i_box={}    #key is read postion, value specifies inputs for R boxplot
         try:
             while(1):
                 aligned_read = next(self.samfile)
