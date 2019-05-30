@@ -22,12 +22,15 @@ Release history
 ===================
 
 **RSeQC-GSI v3.0.4**
+
 * Bugfix; ensure boxplot input is non-empty in read_quality.py
 
 **RSeQC-GSI v3.0.3**
+
 * Bugfix for divide-by-zero error in geneBody_coverage.py
 
 **RSeQC-GSI v3.0.2**
+
 * Updated setup.py
 
 **RSeQC-GSI v3.0.1**
