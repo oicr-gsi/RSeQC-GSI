@@ -12,7 +12,7 @@ if sys.version_info[0] != 3:
 
 def main():
 	setup(  name = "RSeQC-GSI",
-                version = "3.0.2",
+                version = "3.0.5",
                 python_requires='>=3.5',
                 packages = find_packages( 'lib' ),
                 package_dir = { '': 'lib' },
@@ -28,7 +28,7 @@ def main():
                 maintainer_email = "ibancarz@oicr.on.ca",
 		platforms = ['Linux','MacOS'],
 		requires = ['cython (>=0.17)'],
-		install_requires = ['cython>=0.17','pysam','bx-python','numpy', 'pyBigWig'],
+		install_requires = ['cython>=0.17', 'pysam', 'bx-python', 'numpy', 'pyBigWig'],
                 description = "RNA-seq QC Package",
                 long_description = "Fork for use at OICR-GSI, of the RSeQC package at http://rseqc.sourceforge.net/ written by Liguo Wang and others. Fork and subsequent modifications by Iain Bancarz.",
                 url = "https://github.com/oicr-gsi/RSeQC-GSI",
