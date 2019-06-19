@@ -12,7 +12,7 @@ if sys.version_info[0] != 3:
 
 def main():
 	setup(  name = "RSeQC-GSI",
-                version = "3.0.2",
+                version = "3.0.5",
                 python_requires='>=3.5',
                 packages = find_packages( 'lib' ),
                 package_dir = { '': 'lib' },

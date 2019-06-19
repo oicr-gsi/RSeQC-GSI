@@ -21,6 +21,9 @@ evaluate sequencing saturation, mapped reads distribution, coverage uniformity, 
 Release history
 ===================
 
+**RSeQC-GSI v3.0.5**
+* Corrected version in setup.py
+
 **RSeQC-GSI v3.0.4**
 
 * Bugfix; ensure boxplot input is non-empty in read_quality.py
